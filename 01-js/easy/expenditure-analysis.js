@@ -14,7 +14,33 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+
+  let categoryWiseTotalPrice = {}; //{categoryName : spent}
+
+  transactions.forEach((element) => {
+
+    if (categoryWiseTotalPrice[element.category]) {
+
+      categoryWiseTotalPrice[element.category] =
+
+        categoryWiseTotalPrice[element.category] + element.price;
+
+    } else {
+
+      categoryWiseTotalPrice[element.category] = element.price;
+
+    }
+
+  });
+
+  let resultList=[];
+  Object.keys(categoryWiseTotalPrice).forEach(key => {
+    resultList.push({ category: key, totalSpent: categoryWiseTotalPrice[key] });
+    
+  });
+
+  return resultList;
+
 }
 
 module.exports = calculateTotalSpentByCategory;
