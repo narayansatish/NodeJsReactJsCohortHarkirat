@@ -4,9 +4,28 @@
 
   Once you've implemented the logic, test your code by running
 */
-
 function countVowels(str) {
-    // Your code here
+
+  // Your code here
+
+  let vowelList = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"];
+
+  let vowelCount = 0;
+
+  for (let index = 0; index < str.length; index++) {
+
+    if (vowelList.includes(str[index])) {
+
+      vowelCount++;
+
+    }
+
+  }
+
+  return vowelCount;
+
 }
+
+ 
 
 module.exports = countVowels;
