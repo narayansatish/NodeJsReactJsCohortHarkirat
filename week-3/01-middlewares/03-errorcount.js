@@ -22,5 +22,9 @@ app.post('/user', function(req, res) {
 app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
+app.use((req, res, next) => {
+  errorCount++;
+  res.status(404).send();
+});
 
 module.exports = app;
