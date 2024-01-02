@@ -1,4 +1,4 @@
-import { User } from "..index.js";
+const { User } =require("../db");
 
 async function userMiddleware(req, res, next) {
   // Implement user auth logic
