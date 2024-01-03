@@ -25,12 +25,40 @@
       // 1. added
       // 2. deleted
       // 3. updated
+      // I will be
       const added = [];
       const deleted = [];
       const updated = [];
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
+      let oldTodoIds={},newTodoIds={};
+      oldTodoState.forEach((todos)=>{
+        oldTodoIds[todos.id]=todos;
+      })
+      newTodos.forEach((todos)=>{
+        newTodoIds[todos.id]=todos;
+      })
+      // for deleted  & update Computaion
+      Object.entries(oldTodoIds).forEach(([key, value]) => {
+        if(newTodoIds[key]){
+          if(!(newTodoIds[key].title===value.title && newTodoIds[key].description===value.description)){
+            updated.push(value);
+          }
+        }
+        else{
+          deleted.push(value);
+        }
+      });
+// for added computation
+      Object.entries(newTodoIds).forEach(([key, value]) => {
+        if(!oldTodoIds[key]){
+          added.push(value);
+        }
+      });
+      addTodo(added);
+      updateTodoInDom(updated);
+      removeTodoFromDom(deleted);
       oldTodoState = newTodos;
     }
 
