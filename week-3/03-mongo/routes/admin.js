@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
-const { Admin, Course } = require("../solution/db");
+const { Admin, Course , User } = require( "../db");
 const router = Router();
 
 // Admin Routes
@@ -8,7 +8,14 @@ const router = Router();
 router.post("/signup", async (req, res) => {
   let { username, password } = req.body;
   await Admin.create({ username: username, password: password });
+  console.log({ username: username, password: password })
   res.status(202).send("Admin created successfully.");
+});
+
+router.post("/getAdmin", async (req, res) => {
+
+  let list=await Admin.find();
+  res.status(202).send({list :list});
 });
 
 router.post("/courses", adminMiddleware, async (req, res) => {

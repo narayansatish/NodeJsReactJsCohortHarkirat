@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/courseApp");
+mongoose.connect("mongodb://0.0.0.0:27017/courseApp");
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
@@ -9,14 +9,6 @@ const AdminSchema = new mongoose.Schema({
   username: String,
   password: String,
 });
-
-const UserSchema = new mongoose.Schema({
-  // Schema definition here
-  username: String,
-  password: String,
-  purchasesdCourses: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
-});
-
 const CourseSchema = new mongoose.Schema({
   // Schema definition here
   title: String,
@@ -24,10 +16,18 @@ const CourseSchema = new mongoose.Schema({
   price: Number,
   imageLink: String,
 });
+const UserSchema = new mongoose.Schema({
+  // Schema definition here
+  username: String,
+  password: String,
+  purchasesdCourses: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+});
 
-const Admin = mongoose.model("Admin", AdminSchema);
-const User = mongoose.model("User", UserSchema);
-const Course = mongoose.model("Course", CourseSchema);
+
+
+const Admin =mongoose.models.Admin ||  mongoose.model("Admin", AdminSchema);
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
+const Course = mongoose.models.Course || mongoose.model("Course", CourseSchema);
 
 module.exports = {
   Admin,

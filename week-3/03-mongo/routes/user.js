@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { Course } = require("../solution/db");
-
+const { Admin, Course ,User} = require( "../db");;
+const { default: mongoose } = require("mongoose");
 // User Routes
 router.post("/signup", async (req, res) => {
   // Implement user signup logic
@@ -26,20 +26,31 @@ router.get("/courses", async (req, res) => {
   });
 });
 
-router.post("/courses/:courseId", userMiddleware, async (req, res) => {
+router.post('/courses/:courseId', userMiddleware, async(req, res) => {
   // Implement course purchase logic
-  let courseId = req.params.courseId;
-  let username = req.headers.username;
-  let response = await User.updateOne(
-    { username: username },
-    { $push: { purchasedCourses: courseId } }
-  );
+  const courseId = req.params.courseId;
+  const username = req.headers.username;
+  console.log(courseId);
+
+  let x =await User.updateOne({
+      username: username
+  }, {
+      $push: {
+          purchasedCourses: courseId
+      }
+  })
+  console.log(x);
+
+  res.json({
+      message: "Purchase complete!"
+  })
 });
 
 router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   // Implement fetching purchased courses logic
   let { username } = req.headers;
-  let user = User.find({ username: username });
+  let user = User.findOne({ username: username });
+  console.log(username);
   const courses = await Course.find({
     _id: {
       $in: user.purchasedCourses,
